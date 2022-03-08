@@ -1,0 +1,35 @@
+Images:
+  # tworzenie image
+  docker pull image_name
+  
+  # usuwanie pojedynczo image
+  docker image rm image_name
+  
+  # usuwanie nie uzywanych images
+  docker image prune
+  
+Containers:
+  # tworzenie container wykorzystuje image (hello-world) gdy go nie ma jest tworzony
+  docker run image_name
+
+  # uruchamianie container
+  docker start container_name
+
+  # uruchamianie gdy chchemy zobaczy co wypisuje sie w systemi na ktorym stoin container
+  docker start -a container_name
+  
+  # zatrzymywanie containera
+  docker stop container_name
+  
+  # usuwanie containera
+  docker rm container_name
+  
+  # usuwanie wszystkich nie uzywanych containers
+  docker container prune
+
+Ogólne:
+  # usuwanie nieuzywanych images, containers, networks
+  docker system prune
+  
+  # usuwanie nieuzyawnych networks
+  docker network prune
