@@ -1,0 +1,7 @@
+zadanie3
+  docker run - tworzy nowy container na podstawie podanego image
+  docker start - uruchamia tylko stworzony juz container
+  docker start -a - pokazuje co zostalo wypisane w systemie na ktorym stoi dany container
+zadanie4
+  docker rm - usuwa podany w argumencie container
+  docker prune - usuwa nie uzywane containers, images czyli wiele na raz
