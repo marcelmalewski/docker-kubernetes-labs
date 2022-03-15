@@ -9,7 +9,7 @@ zadanie1
 zadanie2
   docker logs quizzical_feistel
 zadanie3
-  docker start -a container_name
+  docker start container_name
   docker exec -it container_name sh
 zadanie4
   echo "My first file" > readme.txt
@@ -18,4 +18,4 @@ zadanie4
 zadanie 5
   docker exec admiring_varahamihira sh -c "echo 'Created from outside' > createdFile.txt"
 zadanie6
-  
+  docker create --name my_container busybox echo Hello world from my container

@@ -34,9 +34,37 @@ Containers:
   docker ps -a
 
 Busy busybox
-  # start busyboxa
+  # start busyboxa tak zeby byl wloczny (ale zeby to bylo mozliwe przy run musi byc -it sh)
+  # albo musi byc dodane potem sh !!!
+  docker start container_name
   docker start -a container_name
+  docker run -it busybox sh
 
+  # stworzenie i wejsce do sh (puki tam jestesmy jest wloczony)
+  docker run -it busybox sh
+
+  # tworzeni z nazwą
+  docker run -it --name nazwa busybox sh
+
+  # wypisanie przy tworznieu hello world, ale cos dziwnego sie wtedy dzieje
+  docker run busybox echo hello world
+
+  # wypisywanie logow kontenera
+  docker logs container_name
+
+  # uruchmoienie komendy na urucgomionym kontenerze np. sh
+  docker exec -it container_name sh
+
+  # tworzenie pliku za pomoca exec
+  docker exec admiring_varahamihira sh -c "echo 'Created from outside' > createdFile.txt"
+
+  # tworzenie pliku
+  echo "My first file" > readme.txt
+
+  # (docker create) tworzenie kontenera z nazwą ktory z -a wypisuje cos konkretnego
+  docker create --name my_container busybox echo Hello world from my container
+
+  
 Ogólne:
   # usuwanie nieuzywanych images, containers, networks
   docker system prune
