@@ -12,6 +12,9 @@ Containers:
   # tworzenie container wykorzystuje image (hello-world) gdy go nie ma jest tworzony
   docker run image_name
 
+  # tworzenie i wywolanie komendy np. sh
+  docker run image_name sh
+
   # uruchamianie container
   docker start container_name
 
@@ -29,6 +32,10 @@ Containers:
 
   # wypisywanie wszystkich kontenerów
   docker ps -a
+
+Busy busybox
+  # start busyboxa
+  docker start -a container_name
 
 Ogólne:
   # usuwanie nieuzywanych images, containers, networks

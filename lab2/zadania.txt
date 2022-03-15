@@ -1,0 +1,21 @@
+zadanie1
+  docker pull busybox
+
+  docker run -it busybox sh
+    echo hello world
+  # albo ten sam wynik za pomocą jednej komendy
+  docker run busybox echo hello world
+  
+zadanie2
+  docker logs quizzical_feistel
+zadanie3
+  docker start -a container_name
+  docker exec -it container_name sh
+zadanie4
+  echo "My first file" > readme.txt
+  plik nie bedzie istniaj
+  bo przy run tworzymy nowy kontener
+zadanie 5
+  docker exec admiring_varahamihira sh -c "echo 'Created from outside' > createdFile.txt"
+zadanie6
+  
