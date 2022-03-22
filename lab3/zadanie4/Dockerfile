@@ -4,6 +4,4 @@ WORKDIR /opt/app
 
 COPY ./ ./
 
-RUN npm install
-
-CMD node index.js
+RUN ["node","index.js"]
