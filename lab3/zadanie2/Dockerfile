@@ -1,0 +1,5 @@
+FROM busybox
+COPY ./my-static-binary /my-static-binary
+CMD ["/my-static-binary"]
+
+RUN echo "Hello from my dockerfile!"

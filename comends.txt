@@ -34,6 +34,11 @@ Containers:
   docker ps -a
 
 Busy busybox
+  # co robi -it
+  łączymy input i output z command line kontenera do nas do terminala
+
+  # dodanie tego sh w przypadku "docker create --name my_container busybox echo Hello world from my container") ?
+
   # start busyboxa tak zeby byl wloczny (ale zeby to bylo mozliwe przy run musi byc -it sh)
   # albo musi byc dodane potem sh !!!
   docker start container_name

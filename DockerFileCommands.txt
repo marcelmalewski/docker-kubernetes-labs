@@ -1,0 +1,17 @@
+FROM 
+
+# obszar roboczy
+WORKDIR /opt/app
+
+COPY ./package.json ./
+
+RUN npm install
+
+CMD node index.js
+
+# buildowanie image
+# -t - tag nazwa dla image
+docker build -t nazwa .
+
+# uruchamianie kontenera na porcie
+ docker run --name nazwa -d -p 4200:80 nazwa_image
