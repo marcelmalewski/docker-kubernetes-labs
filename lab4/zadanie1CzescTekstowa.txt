@@ -1,0 +1,31 @@
+# WORKDIR
+tworzymy katalog roboczy, wszystkie komendy będą się do niego odwoływać
+
+# COPY
+kopiujemy z folderu w ktoreym jestesmy do folderu stworzonego w WORKDIR
+
+# RUN
+uruchamiamy komende w trakcie tworzenia obrazu
+
+# CMD
+uruchamiamy komende w trakcie tworzenia kontenera
+
+# EXPOSE
+to jest taka deklaracja jakie porty zamierzamy upubliczniać i przy tworzeniu trzeba -p urzyc albo -P
+
+docker run -p 8080:8080 sha256:fe90d5aacba00ff827f6f549882148b3a0df7b610ae9aa0d0d4f37f420d7dcf4
+
+docker build -t 6745345/my-first-docker-repository-labs:first .
+
+docker push 6745345/my-first-docker-repository-labs:first 
+
+# linkt do repozytorium
+https://hub.docker.com/repository/docker/6745345/my-first-docker-repository-labs/general
+
+# tworzenie w pliku w ktorym sie znajduje
+npx create-react-app .
+
+# chyba nalezy skasowac node_modules  i package-loc.json zeby nie bylo kopiowane
+tak mozna  a nawet to jest dobre
+
+docker run -p 3100:3000 test2

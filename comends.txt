@@ -1,6 +1,17 @@
 Images:
   # tworzenie image
   docker pull image_name
+
+  # tworzenie image  pod publishowanie na docker hub
+    docker build -t nazwa_na_dockHubie/nazwa-repo:nazwa_image
+    docker build -t 6745345/my-first-docker-repository-labs:first .
+  
+  # publishowanie na dockerhub
+    docker push nazwa_na_dockHubie/nazwa-repo:nazwa_image
+    docker push 6745345/my-first-docker-repository-labs:first
+
+  # tworzenie z wlasna nazwą
+  docker build -t nazwa_image .
   
   # usuwanie pojedynczo image
   docker image rm image_name
@@ -20,7 +31,16 @@ Containers:
 
   # uruchamianie gdy chchemy zobaczy co wypisuje sie w systemi na ktorym stoin container
   docker start -a container_name
-  
+
+  # uruchamianie na danym porcie
+  # mapujemy port 4200 na naszym komputerze na port 80 w kontenerze
+    docker run --name nazwa -d -p 4200:80 nazwa_image
+    docker run -p 8080:8080 sha256:fe90d5aacba00ff827f6f549882148b3a0df7b610ae9aa0d0d4f37f420d7dcf4
+
+  # -d 
+  By design, containers started in detached mode exit when the 
+  root process used to run the container exits, unless you also specify the --rm option
+
   # zatrzymywanie containera
   docker stop container_name
   
@@ -44,6 +64,11 @@ Busy busybox
   docker start container_name
   docker start -a container_name
   docker run -it busybox sh
+
+  # dodanie do sieci
+  --network nazwa_sieci
+
+  # --rm ?
 
   # stworzenie i wejsce do sh (puki tam jestesmy jest wloczony)
   docker run -it busybox sh
@@ -76,3 +101,22 @@ Ogólne:
   
   # usuwanie nieuzyawnych networks
   docker network prune
+
+Sieci:
+ # pokazuje sieci ktore mamy
+ docker network ls
+
+ # zaglada do konkretnej sieci 
+ # np widizmy podpiente kontenery
+ docker network inspect nazwa_sieci
+
+ # tworzenie sieci
+ docker network create nazwa_sieci
+
+Plecenia w sh:
+  # sprawdz siec 
+  ip addr
+
+Push new image to reposritory on git hub:
+  docker tag local-image:tagname new-repo:tagname
+  docker push new-repo:tagname

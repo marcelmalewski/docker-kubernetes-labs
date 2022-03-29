@@ -1,17 +1,14 @@
-FROM 
+# WORKDIR
+tworzymy katalog roboczy, wszystkie komendy będą się do niego odwoływać
 
-# obszar roboczy
-WORKDIR /opt/app
+# COPY
+kopiujemy z folderu w ktoreym jestesmy do folderu stworzonego w WORKDIR
 
-COPY ./package.json ./
+# RUN
+uruchamiamy komende w trakcie tworzenia obrazu
 
-RUN npm install
+# CMD
+uruchamiamy komende w trakcie tworzenia kontenera
 
-CMD node index.js
-
-# buildowanie image
-# -t - tag nazwa dla image
-docker build -t nazwa .
-
-# uruchamianie kontenera na porcie
- docker run --name nazwa -d -p 4200:80 nazwa_image
+# EXPOSE
+to jest taka deklaracja jakie porty zamierzamy upubliczniać i przy tworzeniu trzeba -p urzyc albo -P
