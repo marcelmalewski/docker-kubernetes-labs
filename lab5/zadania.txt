@@ -1,0 +1,48 @@
+# zadanie1 
+   docker run nginx:alpine
+   # sprawdzanie do jakiej sieci nalezy
+   docker inspect container_name -f "{{json .NetworkSettings.Networks }}"
+
+# zadanie2
+   - docker create firstNetwork
+   - docker run --name second --network firstNetwork  nginx:alpine
+   - docker network inspect firstNetwork
+      "containers:"
+
+# zadanie3
+   # polacz containerdo sieci i nieodłącza go wtedy od innych sieci
+   - docker network connect firstNetwork first
+   # widac dwie sieci
+   - docker inspect first -f "{{json .NetworkSettings.Networks }}"
+   - docker network disconnect bridge first
+
+# zadanie4
+   - docker container prune
+   - docker network prune
+
+# zadanie5
+   # wszystko co bylo w postgresie jest zapisane w .\data
+      docker run -v C:\Users\mmale\Repozytoria\chmurowe\lab5\postgres\data:/var/lib/postgresql/data --name postgres-db -e POSTGRES_PASSWORD=mypassword -e POSTGRES_USER=myuser -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
+
+   # uruchomienie contenera
+      docker exec -it postgres-db bash
+
+   # logowanie sie
+      psql -d mydb -U myuser
+
+   # tworznie podstawowej tabeli
+      CREATE TABLE IF NOT EXISTS accounts (
+         id serial PRIMARY KEY,
+         username VARCHAR (255) UNIQUE NOT NULL
+      );
+
+      INSERT INTO accounts(username) VALUES 
+      ('rick'), ('morty') RETURNING *;
+
+   # wyswietlanie jej
+      \dt
+      select * from accounts;
+
+# zadanie6
+   
+
