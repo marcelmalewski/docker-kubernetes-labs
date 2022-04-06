@@ -4,7 +4,7 @@
    docker inspect container_name -f "{{json .NetworkSettings.Networks }}"
 
 # zadanie2
-   - docker create firstNetwork
+   - docker network create firstNetwork
    - docker run --name second --network firstNetwork  nginx:alpine
    - docker network inspect firstNetwork
       "containers:"
@@ -44,5 +44,11 @@
       select * from accounts;
 
 # zadanie6
-   
+   docker run --name myRedis -d redis
 
+   docker network create firstNetwork
+   docker network connect firstNetwork myRedis
+   docker network connect firstNetwork postgres-db
+
+# zadanie7
+   

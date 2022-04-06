@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  db:
+  postgresDB:
     image: postgres
     restart: always
     environment:
@@ -9,4 +9,4 @@ services:
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: mydb
     volumes:
-       - C:\Users\mmale\Repozytoria\chmurowe\lab5\data:/var/lib/postgresql/data
+       - C:\Users\mmale\Repozytoria\chmurowe\postgres\lab5\data:/var/lib/postgresql/data
