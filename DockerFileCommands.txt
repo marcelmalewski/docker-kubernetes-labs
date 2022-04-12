@@ -2,7 +2,8 @@
 tworzymy katalog roboczy, wszystkie komendy będą się do niego odwoływać
 
 # COPY
-kopiujemy z folderu w ktoreym jestesmy do folderu stworzonego w WORKDIR
+COPY loklany_sciezka sciezka_w_kontenerze
+kopiujemy z folderu w ktoreym jestesmy do folderu stworzonego w WORKDIR jezlie nie sprecyzujemy sciezki
 
 # RUN
 uruchamiamy komende w trakcie tworzenia obrazu

@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  mybackend:
+    # jak cos sie zepsuje to sie restartuje
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./mybackend
+    environment:
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydb
+      - POSTGRES_USER=myuser
+      - POSGTGRES_HOST=mypostgres
+    
+  mynginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./mynginx
+    ports:
+    - '3001:80'
+
+  myfrontend:
+    build:
+      dockerfile: Dockerfile
+      context: ./myfrontend
+
+    volumes:
+      - /opt/app/node_modules
+      - ./myfrontend:/opt/app

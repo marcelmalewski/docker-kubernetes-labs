@@ -1,3 +1,16 @@
+Zmiany w images:
+  jezeli zrobie zmiane trzeba jeszcze raz build (np. nginx przy zmianie konfiguracji)
+  mozna tez usunac image (moze czasem volume) i stworzy sie sam nowy
+  albo z opcja przebudowania na nowo
+  docker-compose up --build
+
+Zanim uruchomich docker-compose
+ # lokalny test 
+ docker build -f Dockerfile .
+
+ docker run nazwa_utworzonego_kontenera
+
+
 Images:
   # tworzenie image
   docker pull image_name
