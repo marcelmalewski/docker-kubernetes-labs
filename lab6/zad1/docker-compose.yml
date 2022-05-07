@@ -6,13 +6,12 @@ services:
     build:
       # sciezka do dockerfile danego serwisu
       dockerfile: Dockerfile
-      # gdzie odbywa sie pudowania
+      # gdzie odbywa sie budowania
       context: ./backend
     # ustawianie zmiennych środowiskowych
     environment:
-      - PGPORT=5001
+      - APIPORT=5001
     # mapowanie portow
+    # host : container
     ports:
       - 5001:5001
-  myredis:
-    image: 'redis:alpine'

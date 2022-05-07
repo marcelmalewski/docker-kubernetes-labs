@@ -4,7 +4,7 @@ const express = require('express');
 
 const app = express();
 
-const PORT = process.env.PGPORT;
+const PORT = process.env.APIPORT;
 
 app.get('/', (req, res) => {
   res.send('Hello World');

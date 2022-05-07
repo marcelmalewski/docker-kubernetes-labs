@@ -1,0 +1,14 @@
+yarn init
+yarn add
+
+node index.js
+
+process.env.port
+
+#co sie dzieje w kontenerze mozna odpalić apke docker i kliknąć kontener
+
+#redis
+https://www.sitepoint.com/using-redis-node-js/
+
+#postgres
+https://blog.logrocket.com/nodejs-expressjs-postgresql-crud-rest-api-example/

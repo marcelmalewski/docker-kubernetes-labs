@@ -10,6 +10,14 @@ Zanim uruchomich docker-compose
 
  docker run nazwa_utworzonego_kontenera
 
+Uruchamianie dockerfile:
+# jestem w folderze gdzie jest dockerfile, kropka jest ważna
+# powstanie wtedy image
+docker build -t nazwa_nowego_kontenera .
+
+#urchamianie image, trzeba pamietac o porcia na ktorym dziala api
+#co sie dzieje w kontenerze mozna odpalić apke docker i kliknąć kontener
+docker run --name test -d -p 4000:4000 backend
 
 Images:
   # tworzenie image

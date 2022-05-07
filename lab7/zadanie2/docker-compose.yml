@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  mynginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./mynginx
+    ports:
+    - '3001:80'
+
+  myfrontend:
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./myfrontend
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+    volumes:
+      # powiedzenie ze kontener ma miec swoj node_modules
+      - /opt/app/node_modules
+      # kontener ma miec/widziec katalogi z hosta
+      - C:\Users\mmale\Repozytoria\chmurowe\lab7\zadanie2\myfrontend:/opt/app

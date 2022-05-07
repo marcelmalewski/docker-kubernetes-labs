@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  api:
+    # opis jak mamy stworzyć obraz do serwisu
+    build:
+      # sciezka do dockerfile danego serwisu
+      dockerfile: Dockerfile
+      # gdzie odbywa sie pudowania
+      context: ./backend
+    # ustawianie zmiennych środowiskowych
+    environment:
+      - PGPORT=5001
+    # mapowanie portow
+    ports:
+      - 5001:5001
+  myredis:
+    image: 'redis:alpine'
