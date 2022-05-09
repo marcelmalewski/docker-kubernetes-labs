@@ -1,20 +1,21 @@
 # zadanie1 
-   docker run nginx:alpine
+   1. docker run nginx:alpine
    # sprawdzanie do jakiej sieci nalezy
-   docker inspect container_name -f "{{json .NetworkSettings.Networks }}"
+   2. docker inspect nazwa_kontenera -f "{{json .NetworkSettings.Networks }}"
 
 # zadanie2
-   - docker network create firstNetwork
-   - docker run --name second --network firstNetwork  nginx:alpine
-   - docker network inspect firstNetwork
+   - docker network create nazwa_sieci
+   - docker run --name nazwa_kontenera --network nazwa_sieci  nginx:alpine
+   - docker network inspect nazwa_sieci
       "containers:"
 
 # zadanie3
    # polacz containerdo sieci i nieodłącza go wtedy od innych sieci
-   - docker network connect firstNetwork first
+   - docker network connect nazwa_sieci nazwa_kontenera
    # widac dwie sieci
-   - docker inspect first -f "{{json .NetworkSettings.Networks }}"
-   - docker network disconnect bridge first
+   - docker network inspect nazwa_sieci1
+   - docker inspect nazwa_kontenera -f "{{json .NetworkSettings.Networks }}"
+   - docker network disconnect bridge nazwa_kontenera
 
 # zadanie4
    - docker container prune
@@ -35,13 +36,21 @@
          id serial PRIMARY KEY,
          username VARCHAR (255) UNIQUE NOT NULL
       );
-
+   
+   # dodanie do niej wartosci
       INSERT INTO accounts(username) VALUES 
       ('rick'), ('morty') RETURNING *;
 
    # wyswietlanie jej
       \dt
       select * from accounts;
+
+   # test
+      1. docker run -v C:\Users\mmale\Repozytoria\chmurowe\lab5\postgres\data:/var/lib/postgresql/data --name postgres-db -e POSTGRES_PASSWORD=mypassword -e POSTGRES_USER=myuser -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
+      2. docker exec -it postgres-db bash
+      3. psql -d mydb -U myuser
+      4. \dt
+      5. select * from accounts;
 
 # zadanie6
    docker run --name myRedis -d redis
@@ -51,4 +60,16 @@
    docker network connect firstNetwork postgres-db
 
 # zadanie7
+   # tworzenie tez redisa
+   1. docker run --name myRedis -d -p 6379:6379 redis
+
+   # buildowanie api z dockerfile
+      1. docker build -t nazwa_image .
+      
+      # uwazamy na port, pytanie na jakim porci api sie stawia w kontenerze
+         2. docker run --name nazwa_kontenera -p 4000:4000 nazwa_image
+
+      # jak się połączyć z portem hosta
+         1. host: process.env.REDIS_HOST || 'host.docker.internal'
+         2. host: process.env.postgresHost || "host.docker.internal"
    

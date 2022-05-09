@@ -4,4 +4,4 @@ WORKDIR /opt/app
 
 COPY ./ ./
 
-RUN ["node","index.js"]
+CMD ["node","index.js"]

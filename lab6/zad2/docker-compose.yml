@@ -6,11 +6,12 @@ services:
       dockerfile: Dockerfile
       context: ./backend
     environment:
-      - PGPORT=4000
+      - PORT=4000
     ports:
       - 4000:4000
-    links:
+    depends_on:
       - postgresDB
+      - myredis
 
   postgresDB:
     image: postgres
@@ -19,17 +20,12 @@ services:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
       POSTGRES_DB: mydb
-    expose:
-      - "5432"
+    ports:
+      - "5432:5432"
     volumes:
       - C:\Users\mmale\Repozytoria\chmurowe\lab6\postgres\data:/var/lib/postgresql/data
   
   myredis:
     image: 'redis:alpine'
-    expose:
-      - "6379"
-
-      #     ports:
-      # - "5432:5432"
-      # ports:
-      # - "6379:6379"
+    ports:
+      - "6379:6379"

@@ -8,7 +8,7 @@ const Redis = require("ioredis");
 
 const dbConnData = {
   port: process.env.REDIS_PORT || 6379,
-  host: process.env.REDIS_HOST || '127.0.0.1',
+  host: process.env.REDIS_HOST || 'host.docker.internal', // 127.0.0.1
 };
 
 const rdClient = new Redis(dbConnData);
@@ -24,10 +24,10 @@ rdClient.on('error', (err) => {
 //postgres łączenie---------------------------------------------------------------------------------------
 const pgClient = new Pool({
   user: process.env.postgresUser || "myuser",
-  host: process.env.postgresHost || "localhost",
+  host: process.env.postgresHost || "host.docker.internal", //localhost
   database: process.env.postgresDB || "mydb",
   password: process.env.postgresPassword || "mypassword",
-  posrt: process.env.port || 5431
+  posrt: process.env.port || 5432
 })
 
 pgClient.on('error', () => console.log('Cannot connect do PG'))
@@ -49,25 +49,27 @@ function NWD(a,b){
     b = q % b;
   }
 
- return a;
+return a;
 }
 
 app.get('/api', async (req, res) => {
   // const number1 = req.body
   // const number2 = req.body.number1
   const number1 = 5
-  const number2 = 8
+  const number2 = 10
   let nwd = 0;
   let gotFromRedis = false
 
   //szukamy w redisie------------------------------------------------------------
   await rdClient.get(number1 + " " + number2, (err, rep) => {
+    console.log("uzywamy redis: ")
     if(rep != null) {
-      console.log("uzywamy redis")
+      console.log("pobieramy z redis")
       //jest to zwroc
       gotFromRedis = true;
       nwd = rep
     } else {
+      console.log("nie ma w redis")
       console.log("dodajemy do redis")
       //nie ma to dodaj
       nwd = NWD(number1, number2)
@@ -90,7 +92,7 @@ app.get('/api', async (req, res) => {
       pgClient.query(query, [number1, number2], (error, data) => {
       if (data.rowCount == 0) {
         //nie ma 
-        console.log("not found");
+        console.log("nie ma w postgres");
         //trzeba dodac
         nwd = NWD(number1, number2);
 
@@ -104,6 +106,7 @@ app.get('/api', async (req, res) => {
 
         res.send(nwd.toString());
       } else {
+        console.log("pobieramy z postgres")
         //jest to zwracamy
         nwd = data.rows[0].nwd;
 

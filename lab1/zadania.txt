@@ -1,8 +1,22 @@
+zadanie1
+  brak polecenia
+
+zadanie2
+  docker pull hello-world
+  docker docker run hello-world
+
 zadanie3
-  docker run - tworzy nowy container na podstawie podanego image
-  docker start - uruchamia tylko stworzony juz container
-  docker start -a - pokazuje co zostalo wypisane w systemie na ktorym stoi dany container
+  # tworzy nowy container na podstawie podanego image
+    docker run nazwa_image
+  # uruchamia tylko stworzony juz container
+    docker start nazwa_kontenera
+  # -a - pokazuje co zostalo wypisane w systemie na ktorym stoi dany container
+    docker start -a nazwa_kontenera
+    
 zadanie4
-  docker ps -a - wyswietla wszystkie kontenery
-  docker rm - usuwa podany w argumencie container
-  docker prune - usuwa nie uzywane containers, images czyli wiele na raz
+  # wyswietla wszystkie kontenery
+    docker ps -a
+  # usuwa podany w argumencie container
+    docker rm nazwa_kontenera
+  # usuwa nie uzywane containers, images czyli wiele na raz
+    docker system prune

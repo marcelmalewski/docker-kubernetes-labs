@@ -6,10 +6,10 @@ COPY loklany_sciezka sciezka_w_kontenerze
 kopiujemy z folderu w ktoreym jestesmy do folderu stworzonego w WORKDIR jezlie nie sprecyzujemy sciezki
 
 # RUN
-uruchamiamy komende w trakcie tworzenia obrazu
+uruchamiamy komende w trakcie tworzenia obrazu (docker build, chyba xD) ! "-d" muże to ukryć
 
 # CMD
-uruchamiamy komende w trakcie tworzenia kontenera
+uruchamiamy komende w trakcie tworzenia/utruchamianiu kontenera (docker run, docker start) ! "-d" muże to ukryć
 
 # EXPOSE
 to jest taka deklaracja jakie porty zamierzamy upubliczniać i przy tworzeniu trzeba -p urzyc albo -P

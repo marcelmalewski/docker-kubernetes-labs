@@ -1,0 +1,13 @@
+laby 1   +
+laby 2   +
+laby 3
+   zad 1 +
+   zad 2 - (permission denied)
+   zad 3 +
+   zad 4 +
+laby 4 +
+laby 5 +
+laby 6
+   zad 1 
+   zad 2 +
+   zad 3

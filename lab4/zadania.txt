@@ -1,0 +1,12 @@
+zad1
+   1. docker build -t nazwa_image .
+   2. docker run -p 8080:8080 nazwa_image
+
+zad2
+   nic
+
+zad3
+   1. npx create-react-app nazwa_apki
+   2. docker build -t nazwa_image .
+   # react stawia serwer na porcie "3000"
+   3. docker run --name nazwa_kontenera -p 3000:3000 nazwa_image

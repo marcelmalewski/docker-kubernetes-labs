@@ -1,0 +1,20 @@
+zadanie1
+  docker run --name my -d -p 4200:80 nginx
+  # "run" tworzy kontnere z image
+  # "--name" daje nazwe dla kontenera
+  # "-d" - uruchom kontener w tle i wyswietl id
+  # "-p" - publish a container's port(s) to the host
+
+zadanie2
+  1. docker build -t nazwa_image .
+  2. docker run --name nazwa_kontenera -d nazwa_image
+  permission denied
+
+zadanie3
+  1. docker build -t nazwa_image .
+  2. docker run --name nazwa_kontenera -d -p 4200:80 nazwa_image
+
+zadanie4
+  1. docker build -t nazwa_image .
+  2. docker run --name nazwa_kontenera -d nazwa_image
+  3. docker start -a nazwa_kontenera

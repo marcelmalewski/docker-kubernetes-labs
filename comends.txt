@@ -1,143 +1,204 @@
-Zmiany w images:
-  jezeli zrobie zmiane trzeba jeszcze raz build (np. nginx przy zmianie konfiguracji)
-  mozna tez usunac image (moze czasem volume) i stworzy sie sam nowy
-  albo z opcja przebudowania na nowo
-  docker-compose up --build
+DOCKER-COMPOSE---------------------------------------------------------------------------------------------------------
+  # uzywampy docker-compose up
+  
+  # lokalny test chyba ze jest "Dockerfile.dev" to trzeba z tym ".dev"
+    docker build -f Dockerfile .
 
-Zanim uruchomich docker-compose
- # lokalny test 
- docker build -f Dockerfile .
+  docker run nazwa_utworzonego_kontenera
 
- docker run nazwa_utworzonego_kontenera
+# testowanie api
+  route.rest, w lab5 jest przykład
 
-Uruchamianie dockerfile:
+DOCKERFILE / URUCHAMIANIE---------------------------------------------------------------------------------------------------------
 # jestem w folderze gdzie jest dockerfile, kropka jest ważna
 # powstanie wtedy image
-docker build -t nazwa_nowego_kontenera .
+  docker build -t nazwa_image .
 
-#urchamianie image, trzeba pamietac o porcia na ktorym dziala api
-#co sie dzieje w kontenerze mozna odpalić apke docker i kliknąć kontener
-docker run --name test -d -p 4000:4000 backend
+# urchamianie image, trzeba pamietac o porcia na ktorym dziala api
+# co sie dzieje w kontenerze mozna odpalić apke docker i kliknąć kontener
+# z tym portem nie zawsze jest potrzebne
+  docker run --name nazwa_kontenera -d -p 4000:4000 nazwa_image
 
-Images:
-  # tworzenie image
-  docker pull image_name
+DEBUGOWANIE:---------------------------------------------------------------------------------------------------------
+  Zmiany w images:---------------------------------------------------------------------------------------------------------
+    jezeli zrobie zmiane trzeba jeszcze raz build (np. nginx przy zmianie konfiguracji)
+    mozna tez usunac image (moze czasem volume) i stworzy sie sam nowy
+    albo z opcja przebudowania na nowo
+    docker-compose up --build
 
-  # tworzenie image  pod publishowanie na docker hub
+ACCES HOST PORTS FROM CONTAINER:---------------------------------------------------------------------------------------------------------
+  # używamy 'host.docker.internal' zmiast 'localhost' i '127.0.0.1'
+    1. host: process.env.REDIS_HOST || 'host.docker.internal'
+    2. host: process.env.postgresHost || "host.docker.internal"
+
+IMAGES:---------------------------------------------------------------------------------------------------------
+  # POBIERANIE image
+    docker pull image_name
+
+  # TWORZENIE z wlasna nazwą
+    docker build -t nazwa_image .
+
+  # TWORZENIE image  pod PUBLISHOWANIE na docker hub
     docker build -t nazwa_na_dockHubie/nazwa-repo:nazwa_image
     docker build -t 6745345/my-first-docker-repository-labs:first .
   
-  # publishowanie na dockerhub
+  # USUWANIE pojedynczo image
+    docker image rm image_name
+  
+  # USUWANIE This will remove all dangling images.
+    docker image prune
+
+  # PUBLISHOWANIE na dockerhub
     docker push nazwa_na_dockHubie/nazwa-repo:nazwa_image
     docker push 6745345/my-first-docker-repository-labs:first
-
-  # tworzenie z wlasna nazwą
-  docker build -t nazwa_image .
   
-  # usuwanie pojedynczo image
-  docker image rm image_name
-  
-  # usuwanie nie uzywanych images
-  docker image prune
-  
-Containers:
-  # tworzenie container wykorzystuje image (hello-world) gdy go nie ma jest tworzony
-  docker run image_name
+CONTAINERS:---------------------------------------------------------------------------------------------------------
+  # TWORZENIE container wykorzystuje image gdy go nie ma jest tworzony/pobierany
+    docker run image_name
 
-  # tworzenie i wywolanie komendy np. sh
-  docker run image_name sh
+  # TWORZENIE i wywolanie komendy np. sh
+    docker run image_name sh
 
-  # uruchamianie container
-  docker start container_name
+  # TWORZENIE  i dodanie do sieci przy tworzeniu
+  docker run --network nazwa_sieci nazwa_image
 
-  # uruchamianie gdy chchemy zobaczy co wypisuje sie w systemi na ktorym stoin container
-  docker start -a container_name
-
-  # uruchamianie na danym porcie
+  # TWORZENIE argument "-p"
   # mapujemy port 4200 na naszym komputerze na port 80 w kontenerze
+  # mapowanie: host : container
+    docker run -p 4200:80 sha256:fe90d5aacba00ff827f6f549882148b3a0df7b610ae9aa0d0d4f37f420d7dcf4
+
+  # TWORZENIE atrybut "-d"
+  # nie widzimy tego co sie wypisuje przy buildowaniu
+  # By design, containers started in detached mode exit when the 
+  # root process used to run the container exits, unless you also specify the --rm option
     docker run --name nazwa -d -p 4200:80 nazwa_image
-    docker run -p 8080:8080 sha256:fe90d5aacba00ff827f6f549882148b3a0df7b610ae9aa0d0d4f37f420d7dcf4
 
-  # -d 
-  By design, containers started in detached mode exit when the 
-  root process used to run the container exits, unless you also specify the --rm option
+  # TWORZENIE atrybut "--name"
+    docker run --name nazwa_kontenera nazwa_image
 
-  # zatrzymywanie containera
-  docker stop container_name
+  # TWORZENIE atrybut "-it"
+  # uruchamia powłokę systemową kontenera.
+    docker run -it busybox(image_name)
+
+  # URUCHAMIANIE container
+    docker start container_name
+
+  # URUCHAMIANIE kontenera, atrybut "-a"
+  # gdy chchemy zobaczy co wypisuje sie w systemi na ktorym stoin container
+    docker start -a container_name
   
-  # usuwanie containera
-  docker rm container_name
+  # URUCHAMIANIE komendy na URUCHAMIONYM kontenerze np. sh
+    docker exec -it container_name sh
+
+  # UŻYCIE KOMENDY przy TWORZENIU kontenera
+    docker run busybox echo hello world
+
+  # ZATRZYMYWANIE containera
+    docker stop container_name
   
-  # usuwanie wszystkich nie uzywanych containers
-  docker container prune
+  # USUWANIE containera
+    docker rm container_name
+  
+  # USUWANIE This will remove all stopped containers.
+    docker container prune
 
-  # wypisywanie wszystkich kontenerów
-  docker ps -a
+  # WYPISYWANIE wszystkich kontenerów
+    docker ps -a
 
-Busy busybox
-  # co robi -it
-  łączymy input i output z command line kontenera do nas do terminala
+  # WYPISYWANIE logow kontenera
+    docker logs container_name
 
-  # dodanie tego sh w przypadku "docker create --name my_container busybox echo Hello world from my container") ?
+  # DODAWANIE DO SIECI
+    docker network connect nazwa_sieci nazwa_kontenera
 
-  # start busyboxa tak zeby byl wloczny (ale zeby to bylo mozliwe przy run musi byc -it sh)
-  # albo musi byc dodane potem sh !!!
-  docker start container_name
-  docker start -a container_name
-  docker run -it busybox sh
+VOLUMENS:---------------------------------------------------------------------------------------------------------
+  # tworzenia kontenera z volumenem np. zapisane są tam ustawienia postgresa
+    docker run -v C:\Users\mmale\Repozytoria\chmurowe\lab5\postgres\data:/var/lib/postgresql/data --name postgres-db -e POSTGRES_PASSWORD=mypassword -e POSTGRES_USER=myuser -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
 
-  # dodanie do sieci
-  --network nazwa_sieci
+KONTENER Z POSTGRESEM:---------------------------------------------------------------------------------------------------------
+    # uruchomienie contenera z wejsciem do basha
+      docker exec -it postgres-db bash
+
+    # logowanie sie do postgresa
+      psql -d mydb -U myuser
+
+    # tworznie podstawowej tabeli
+      CREATE TABLE IF NOT EXISTS accounts (
+         id serial PRIMARY KEY,
+         username VARCHAR (255) UNIQUE NOT NULL
+      );
+
+    # dodanie do niej przykładowych wartosci
+      INSERT INTO accounts(username) VALUES 
+      ('rick'), ('morty') RETURNING *;
+
+    # wyswietlanie jej
+      1. \dt
+      2. select * from accounts;
+
+BUSYBOX---------------------------------------------------------------------------------------------------------
+  # TWORZENIE/URUCHAMIANIE kontenera tak zeby był uruchomiony
+  # używamy argument -it
+  # łączymy input i output z command line kontenera do nas do terminala
+    docker run -it busybox (chyba to wystarczy)
+    docker run -it busybox sh
+
+  # OTWORZENIE TERMINALA w uruchomionych kontenerze (dodajemy sh)
+    docker exec -it test sh
+
+    # TERMINAL stworzenie pliku z textem
+      echo "My first file" > readme.txt
+
+    # TERMINAL sprawdzenie zawartosci pliku
+      cat readme.txt
 
   # --rm ?
 
-  # stworzenie i wejsce do sh (puki tam jestesmy jest wloczony)
-  docker run -it busybox sh
-
-  # tworzeni z nazwą
-  docker run -it --name nazwa busybox sh
-
-  # wypisanie przy tworznieu hello world, ale cos dziwnego sie wtedy dzieje
-  docker run busybox echo hello world
-
-  # wypisywanie logow kontenera
-  docker logs container_name
-
-  # uruchmoienie komendy na urucgomionym kontenerze np. sh
-  docker exec -it container_name sh
-
   # tworzenie pliku za pomoca exec
-  docker exec admiring_varahamihira sh -c "echo 'Created from outside' > createdFile.txt"
+    docker exec admiring_varahamihira sh -c "echo 'Created from outside' > createdFile.txt"
 
   # tworzenie pliku
-  echo "My first file" > readme.txt
+    echo "My first file" > readme.txt
 
+  # dodanie tego sh w przypadku "docker create --name my_container busybox echo Hello world from my container") ?
   # (docker create) tworzenie kontenera z nazwą ktory z -a wypisuje cos konkretnego
-  docker create --name my_container busybox echo Hello world from my container
+    docker create --name my_container busybox echo Hello world from my container
 
   
-Ogólne:
+Ogólne:---------------------------------------------------------------------------------------------------------
+  # USUWANIE Remove all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes
+    docker system prune
+  
   # usuwanie nieuzywanych images, containers, networks
-  docker system prune
+    docker system prune
   
   # usuwanie nieuzyawnych networks
-  docker network prune
+    docker network prune
 
-Sieci:
- # pokazuje sieci ktore mamy
- docker network ls
+  # gitignore w dockerze
+    .dockerignore
 
- # zaglada do konkretnej sieci 
- # np widizmy podpiente kontenery
- docker network inspect nazwa_sieci
+SIECI:---------------------------------------------------------------------------------------------------------
+  # TWORZENIE sieci
+    docker network create nazwa_sieci
 
- # tworzenie sieci
- docker network create nazwa_sieci
+  # pokazuje sieci ktore mamy
+    docker network ls
 
-Plecenia w sh:
+  # sprawdzanie do jakiej sieci należy kontener
+    docker inspect container_name -f "{{json .NetworkSettings.Networks }}"
+
+  # zaglada do konkretnej sieci 
+  # np widizmy podpiente kontenery w "containers"
+    docker network inspect nazwa_sieci
+
+  # odlączanie od sieci
+    docker network disconnect nazwa_sieci nazwa_kontenera
+
+Plecenia w sh:---------------------------------------------------------------------------------------------------------
   # sprawdz siec 
   ip addr
 
-Push new image to reposritory on git hub:
+Push new image to reposritory on git hub:---------------------------------------------------------------------------------------------------------
   docker tag local-image:tagname new-repo:tagname
   docker push new-repo:tagname
