@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-nginx-pod
+
+spec:
+  containers:
+    - name: my-nginx
+      image: nginx:alpine
+      command: ["/bin/sh","-c"]
+      args: ["nginx && wget localhost:80"]
+          

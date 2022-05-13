@@ -1,0 +1,38 @@
+zad1
+   "scripts": {
+    "start": "nodemon -L server.js"
+   },
+
+zad2
+   1. Dockerfile.dev
+   # testowanie lokalne, tworzenie node_modules z package.json
+      yarn install
+      
+zad3
+   1. jak coś nie działa sprawdzić lokalnie
+      np.
+         node server.js
+   backend
+      1. Dockerfile.dev
+      1. npm install nodemon
+      2. npm install express
+      3. {
+            "name": "mybackend",
+            "version": "1.0.0",
+            "main": "index.js",
+            "scripts": {
+               "start": "nodemon -L server.js"
+               },
+            "license": "MIT",
+            "dependencies": {
+               "express": "^4.17.3",
+               "pg": "^8.7.3"
+            }
+         }
+      4. CMD ["npm", "run", "start"]
+
+      frontend
+         1. Dockerfile.dev
+         # testowanie lokalne, tworzenie node_modules z package.json
+            yarn install
+         

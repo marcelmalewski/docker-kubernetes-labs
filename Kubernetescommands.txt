@@ -1,0 +1,36 @@
+kubectl cluster-info
+kubectl create -f my-nginx-pod.yaml
+kubectl logs -f nazwa_poda
+kubectl exec -it nazwa_poda
+kubectl config current-context
+kubectl get pods
+kubectl get pods --namespace=nazwa_namespace
+kubectl describe pod nazwa_poda --namespace=nazwa_namespace
+kubectl delete pod nazwa_poda
+
+kubectl get deploy
+kubectl get rs
+
+kubectl scale --replicas=7 -f nazwa_poda
+
+# deklaratywny
+
+# zamiast create mozna
+kubectl apply -f nazwa_poda
+
+# ports
+   30 000 - 32 767
+
+# gdy deployment
+   kubectl get deploy
+   kubectl delete deploy <deployment name>
+
+   # deploy tworzy pody co jak delete pod
+      wtedy na jego miejsce tworzy sie nowy pod
+
+
+# gdy service
+   kubectl describe service my-frontend-nodeport
+
+# czyszczenie
+   kubectl delete service my-frontend-nodeport

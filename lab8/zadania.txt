@@ -1,0 +1,49 @@
+zad1
+  # stworzyc kubernetes z naszego pliku
+  1. kubectl create -f my-nginx-pod.yaml
+  2. kubectl get pods
+  3. kubectl exec -it my-nginx-pod -- sh
+  4. curl localhost:80
+
+zad2
+    spec:
+      containers:
+        - name: my-nginx
+          image: nginx:alpine
+          command: ["/bin/sh","-c"]
+          args: ["nginx && wget localhost:80"]
+
+    1. kubectl create -f my-nginx-pod.yaml
+    2. w dockerdesktop kliknąć na poda i w logs widać ze sie wykonało
+
+zad3
+  1. kubectl create -f my-nginx-pod.yaml
+  2. kubectl apply -f my-nginx-nodeport.yaml
+  3. kubectl get service
+
+zad4
+  create .dockerignore
+
+  1. jak nie działa dodać
+    docker logout
+
+  2. build docker file reacta zeby miec image
+    docker build -t my-react-image .
+
+  3. tag image
+    docker tag my-react-image 6745345/my-react-image:latest
+    docker tag {image_name} {username}/{image_name}:{image_version}
+
+  4. jak bylo logout to trzeba
+    docker login
+
+  5.
+    docker push 6745345/my-react-image:latest
+    docker push {username}/{image_name}:{image_version}
+
+  6. kubectl apply -f my-frontend-depl.yaml
+
+  7. kubectl get pods
+
+  # service chociaz mozna w jednym pliku https://www.youtube.com/watch?v=JL6RTbtS9p0
+    kubectl apply -f my-frontend-nodeport.yaml

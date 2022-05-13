@@ -12,3 +12,8 @@ https://www.sitepoint.com/using-redis-node-js/
 
 #postgres
 https://blog.logrocket.com/nodejs-expressjs-postgresql-crud-rest-api-example/
+
+najpierw apka
+potem docker build i postawienie kontenera
+potem docker compose 
+dopiero potem kubernetes

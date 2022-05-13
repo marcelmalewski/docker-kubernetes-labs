@@ -1,23 +1,52 @@
 DOCKER-COMPOSE---------------------------------------------------------------------------------------------------------
-  # uzywampy docker-compose up
-  
+  # KOMENDY
+    docker-compose up
+
+    docker-compose up -d
+
+    docker-compose stop
+
+    docker-compose down --volumes
+
+  # ODPALANIE KONTENEROW PO KOLEI
+  depends_on:
+      - postgresDB
+      - myredis
+
   # lokalny test chyba ze jest "Dockerfile.dev" to trzeba z tym ".dev"
     docker build -f Dockerfile .
+    docker run nazwa_utworzonego_kontenera
 
-  docker run nazwa_utworzonego_kontenera
-
-# testowanie api
+  # TESTOWANIE API
   route.rest, w lab5 jest przykład
+    # NGINX
+      wystarczy localhost i port ktory wystawia nginx, resztą zajmuje się nginx
 
 DOCKERFILE / URUCHAMIANIE---------------------------------------------------------------------------------------------------------
-# jestem w folderze gdzie jest dockerfile, kropka jest ważna
-# powstanie wtedy image
-  docker build -t nazwa_image .
+  # jestem w folderze gdzie jest dockerfile, kropka jest ważna
+  # wtedy nazwa dockerfile to musi być "Dockerfile" bez .dev
+  # powstanie wtedy image
+    docker build -t nazwa_image .
 
-# urchamianie image, trzeba pamietac o porcia na ktorym dziala api
-# co sie dzieje w kontenerze mozna odpalić apke docker i kliknąć kontener
-# z tym portem nie zawsze jest potrzebne
-  docker run --name nazwa_kontenera -d -p 4000:4000 nazwa_image
+  # urchamianie image, trzeba pamietac o porcia na ktorym dziala api
+  # co sie dzieje w kontenerze mozna odpalić apke docker i kliknąć kontener
+  # z tym portem nie zawsze jest potrzebne
+    docker run --name nazwa_kontenera -d -p 4000:4000 nazwa_image
+
+  # NPM
+    RUN npm install
+
+    COPY . .
+
+    CMD ["npm", "run", "start"]
+
+  # YARN
+    RUN yarn install
+
+    COPY . .
+
+    CMD ["yarn", "start"]
+
 
 DEBUGOWANIE:---------------------------------------------------------------------------------------------------------
   Zmiany w images:---------------------------------------------------------------------------------------------------------
@@ -25,6 +54,11 @@ DEBUGOWANIE:--------------------------------------------------------------------
     mozna tez usunac image (moze czasem volume) i stworzy sie sam nowy
     albo z opcja przebudowania na nowo
     docker-compose up --build
+
+  VOLUMENY
+    # CZY w dockerfile to sie zgadza
+      WORKDIR '/app'
+      WORKDIR /app
 
 ACCES HOST PORTS FROM CONTAINER:---------------------------------------------------------------------------------------------------------
   # używamy 'host.docker.internal' zmiast 'localhost' i '127.0.0.1'
@@ -137,11 +171,16 @@ KONTENER Z POSTGRESEM:----------------------------------------------------------
       2. select * from accounts;
 
 BUSYBOX---------------------------------------------------------------------------------------------------------
-  # TWORZENIE/URUCHAMIANIE kontenera tak zeby był uruchomiony
+  # TWORZENIE/URUCHAMIANIE kontenera tak zeby był uruchomiony i był w terminalu
   # używamy argument -it
   # łączymy input i output z command line kontenera do nas do terminala
     docker run -it busybox (chyba to wystarczy)
     docker run -it busybox sh
+
+  # TWORZENIE/URUCHAMIANIE kontenera tak zeby był uruchomiony i żeby nie był w terminalu
+  # można sprobować -id
+  # wtedy nie wchodzi do terminala a też zostaje włączony
+    docker run -id busybox
 
   # OTWORZENIE TERMINALA w uruchomionych kontenerze (dodajemy sh)
     docker exec -it test sh
@@ -152,15 +191,9 @@ BUSYBOX-------------------------------------------------------------------------
     # TERMINAL sprawdzenie zawartosci pliku
       cat readme.txt
 
-  # --rm ?
-
-  # tworzenie pliku za pomoca exec
+  # TWORZENIE pliku za pomoca exec poza terminalem
     docker exec admiring_varahamihira sh -c "echo 'Created from outside' > createdFile.txt"
 
-  # tworzenie pliku
-    echo "My first file" > readme.txt
-
-  # dodanie tego sh w przypadku "docker create --name my_container busybox echo Hello world from my container") ?
   # (docker create) tworzenie kontenera z nazwą ktory z -a wypisuje cos konkretnego
     docker create --name my_container busybox echo Hello world from my container
 
@@ -195,9 +228,9 @@ SIECI:--------------------------------------------------------------------------
   # odlączanie od sieci
     docker network disconnect nazwa_sieci nazwa_kontenera
 
-Plecenia w sh:---------------------------------------------------------------------------------------------------------
+POLECENIA W SH:---------------------------------------------------------------------------------------------------------
   # sprawdz siec 
-  ip addr
+    ip addr
 
 Push new image to reposritory on git hub:---------------------------------------------------------------------------------------------------------
   docker tag local-image:tagname new-repo:tagname

@@ -5,14 +5,15 @@ services:
     # opis jak mamy stworzyć obraz do serwisu
     build:
       # sciezka do dockerfile danego serwisu
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       # gdzie odbywa sie pudowania
-      context: ./backend
+      context: ./mybackend
     # ustawianie zmiennych środowiskowych
     environment:
       - PGPORT=5001
     # mapowanie portow
     ports:
-      - 5001:5001
-  myredis:
-    image: 'redis:alpine'
+      - "5001:5001"
+    volumes:
+      - /app/node_modules
+      - ./mybackend:/app

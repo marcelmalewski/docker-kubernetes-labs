@@ -7,7 +7,13 @@ laby 3
    zad 4 +
 laby 4 +
 laby 5 +
-laby 6
-   zad 1 
-   zad 2 +
-   zad 3
+laby 6 +
+laby 7 
+   zad 1 +
+   zad 2 - (hot-reload nie działa)
+   zad 3 - (hot-reload nie działa)
+laby 8
+   zad 1 +
+   zad 2 + (chyba)
+   zad 3 +
+   zad 4 +
