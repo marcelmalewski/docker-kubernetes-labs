@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-frontend-depl
+  labels:
+    app: reactapp
+
+spec:
+  template:
+    metadata:
+      name: my-frontend-pod
+      labels:
+        app: reactapp
+    spec:
+      containers:
+        - name: my-frontend-container
+          image: 6745345/my-react-image
+
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reactapp

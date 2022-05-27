@@ -55,6 +55,11 @@ DEBUGOWANIE:--------------------------------------------------------------------
     albo z opcja przebudowania na nowo
     docker-compose up --build
 
+  jak cos nie działa w docker-compose
+    usunac stworzone wczesniej images bo mozliwe ze on nie widzi zmiany w pliku
+    on nie widzi tej zmiany i trzeba jeszce raz build image
+    bedą tu potrzebne volumy itd.
+
   VOLUMENY
     # CZY w dockerfile to sie zgadza
       WORKDIR '/app'
@@ -69,10 +74,10 @@ IMAGES:-------------------------------------------------------------------------
   # POBIERANIE image
     docker pull image_name
 
-  # TWORZENIE z wlasna nazwą
+  # TWORZENIE Z DOCKERFILE z wlasna nazwą
     docker build -t nazwa_image .
 
-  # TWORZENIE image  pod PUBLISHOWANIE na docker hub
+  # TWORZENIE Z DOCKERFILE pod PUBLISHOWANIE na docker hub
     docker build -t nazwa_na_dockHubie/nazwa-repo:nazwa_image
     docker build -t 6745345/my-first-docker-repository-labs:first .
   
@@ -87,19 +92,19 @@ IMAGES:-------------------------------------------------------------------------
     docker push 6745345/my-first-docker-repository-labs:first
   
 CONTAINERS:---------------------------------------------------------------------------------------------------------
-  # TWORZENIE container wykorzystuje image gdy go nie ma jest tworzony/pobierany
+  # TWORZENIE container wykorzystuje image gdy go nie ma jest docker próbuje go pobrać
     docker run image_name
 
-  # TWORZENIE i wywolanie komendy np. sh
+  # TWORZENIE i wejscie do terminala
     docker run image_name sh
 
-  # TWORZENIE  i dodanie do sieci przy tworzeniu
+  # TWORZENIE  i dodanie do sieci
   docker run --network nazwa_sieci nazwa_image
 
-  # TWORZENIE argument "-p"
+  # TWORZENIE z argumentem "-p"
   # mapujemy port 4200 na naszym komputerze na port 80 w kontenerze
   # mapowanie: host : container
-    docker run -p 4200:80 sha256:fe90d5aacba00ff827f6f549882148b3a0df7b610ae9aa0d0d4f37f420d7dcf4
+    docker run -p 4200:80 nazwa_image
 
   # TWORZENIE atrybut "-d"
   # nie widzimy tego co sie wypisuje przy buildowaniu
@@ -112,7 +117,15 @@ CONTAINERS:---------------------------------------------------------------------
 
   # TWORZENIE atrybut "-it"
   # uruchamia powłokę systemową kontenera.
-    docker run -it busybox(image_name)
+    docker run -it nazwa_image
+
+  # UŻYCIE KOMENDY przy TWORZENIU kontenera
+    docker run nazwa_image echo hello world
+
+  # DOCKER CREATE, tworzenie kontenera z nazwą ktory z -a wypisuje cos konkretnego
+  docker create --name my_container nazwa_image echo Hello world from my container
+
+  ------------------------------------------
 
   # URUCHAMIANIE container
     docker start container_name
@@ -124,11 +137,12 @@ CONTAINERS:---------------------------------------------------------------------
   # URUCHAMIANIE komendy na URUCHAMIONYM kontenerze np. sh
     docker exec -it container_name sh
 
-  # UŻYCIE KOMENDY przy TWORZENIU kontenera
-    docker run busybox echo hello world
+  ------------------------------------------
 
   # ZATRZYMYWANIE containera
     docker stop container_name
+  
+  ------------------------------------------
   
   # USUWANIE containera
     docker rm container_name
@@ -136,20 +150,46 @@ CONTAINERS:---------------------------------------------------------------------
   # USUWANIE This will remove all stopped containers.
     docker container prune
 
-  # WYPISYWANIE wszystkich kontenerów
+  ------------------------------------------
+
+  # WYŚWIETLANIE wszystkich kontenerów
     docker ps -a
 
-  # WYPISYWANIE logow kontenera
+  # WYŚWIETLANIE logow kontenera
     docker logs container_name
 
   # DODAWANIE DO SIECI
     docker network connect nazwa_sieci nazwa_kontenera
 
+  # OTWORZENIE TERMINALA w uruchomionych kontenerze (dodajemy sh)
+    docker exec -it test sh
+
+    # TERMINAL stworzenie pliku z textem
+      echo "My first file" > readme.txt
+
+    # TERMINAL sprawdzenie zawartosci pliku
+      cat readme.txt
+    
+    # TERMINAL wypisanie czegos
+      eche hello
+
+  # TWORZENIE pliku za pomoca exec poza terminalem
+    docker exec nazwa_kontenera sh -c "echo 'Created from outside' > createdFile.txt"
+
 VOLUMENS:---------------------------------------------------------------------------------------------------------
   # tworzenia kontenera z volumenem np. zapisane są tam ustawienia postgresa
     docker run -v C:\Users\mmale\Repozytoria\chmurowe\lab5\postgres\data:/var/lib/postgresql/data --name postgres-db -e POSTGRES_PASSWORD=mypassword -e POSTGRES_USER=myuser -e POSTGRES_DB=mydb -p 5432:5432 -d postgres
 
+  # kontener z voulmenami
+    docker run -v /opt/app/node_modules -v (pełna ścieżka):/opt/app -p 4000:3000 nazwa image
+
 KONTENER Z POSTGRESEM:---------------------------------------------------------------------------------------------------------
+    # docker-compose
+      environment:
+        POSTGRES_USER: myuser
+        POSTGRES_PASSWORD: mypassword
+        POSTGRES_DB: mydb
+
     # uruchomienie contenera z wejsciem do basha
       docker exec -it postgres-db bash
 
@@ -174,41 +214,19 @@ BUSYBOX-------------------------------------------------------------------------
   # TWORZENIE/URUCHAMIANIE kontenera tak zeby był uruchomiony i był w terminalu
   # używamy argument -it
   # łączymy input i output z command line kontenera do nas do terminala
-    docker run -it busybox (chyba to wystarczy)
+    docker run -it busybox (chyba to wystarczy) (busy box domyślnie dodaje "sh")
     docker run -it busybox sh
 
   # TWORZENIE/URUCHAMIANIE kontenera tak zeby był uruchomiony i żeby nie był w terminalu
   # można sprobować -id
   # wtedy nie wchodzi do terminala a też zostaje włączony
     docker run -id busybox
-
-  # OTWORZENIE TERMINALA w uruchomionych kontenerze (dodajemy sh)
-    docker exec -it test sh
-
-    # TERMINAL stworzenie pliku z textem
-      echo "My first file" > readme.txt
-
-    # TERMINAL sprawdzenie zawartosci pliku
-      cat readme.txt
-
-  # TWORZENIE pliku za pomoca exec poza terminalem
-    docker exec admiring_varahamihira sh -c "echo 'Created from outside' > createdFile.txt"
-
-  # (docker create) tworzenie kontenera z nazwą ktory z -a wypisuje cos konkretnego
-    docker create --name my_container busybox echo Hello world from my container
-
   
 Ogólne:---------------------------------------------------------------------------------------------------------
   # USUWANIE Remove all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes
     docker system prune
-  
-  # usuwanie nieuzywanych images, containers, networks
-    docker system prune
-  
-  # usuwanie nieuzyawnych networks
-    docker network prune
 
-  # gitignore w dockerze
+  # gitignore w dockerze (POWINNO SIE DODAWAC)
     .dockerignore
 
 SIECI:---------------------------------------------------------------------------------------------------------
@@ -218,12 +236,15 @@ SIECI:--------------------------------------------------------------------------
   # pokazuje sieci ktore mamy
     docker network ls
 
-  # sprawdzanie do jakiej sieci należy kontener
+  # sprawdzanie DO JAKIEJ SIECI należy kontener
     docker inspect container_name -f "{{json .NetworkSettings.Networks }}"
 
   # zaglada do konkretnej sieci 
   # np widizmy podpiente kontenery w "containers"
     docker network inspect nazwa_sieci
+
+  # USUWANIE nieużywanych sieci
+    docker network prune
 
   # odlączanie od sieci
     docker network disconnect nazwa_sieci nazwa_kontenera
@@ -235,3 +256,6 @@ POLECENIA W SH:-----------------------------------------------------------------
 Push new image to reposritory on git hub:---------------------------------------------------------------------------------------------------------
   docker tag local-image:tagname new-repo:tagname
   docker push new-repo:tagname
+
+TWORZNIE NODE:
+  npm init -y

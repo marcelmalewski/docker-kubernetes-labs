@@ -1,12 +1,15 @@
 zad1
+   1. docker-compose up
    "scripts": {
     "start": "nodemon -L server.js"
    },
 
 zad2
-   1. Dockerfile.dev
+   1. docker-compose up
    # testowanie lokalne, tworzenie node_modules z package.json
       yarn install
+
+   2. "react-scripts": "5.0.1", -> "react-scripts": "4.0.3"
       
 zad3
    1. jak coś nie działa sprawdzić lokalnie

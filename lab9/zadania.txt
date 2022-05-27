@@ -1,0 +1,56 @@
+zadanie1
+   1. Został stworzny jeden "depl" i jeden "pod
+   2. Usunięte pody są tworzone automatycznie.
+
+zadanie2
+   1. stworzenie image i nadanie tagu "release0"
+      1. tworzenie image
+      2. tagowanie image
+
+   2. stawianie deploy
+   kubectl apply -f my-frontend-depl.yaml
+
+   3. stawianie service
+   kubectl apply -f my-frontend-nodeport.yaml
+
+   4. kubectl rollout status deployment <deployment_name>
+   odpowiedź: "deployment "my-frontend-depl" successfully rolled out"
+
+   5. zmieniamy zawartosc reacta
+
+   6. aktualizacja image
+   docker build -t nazwa_image .
+
+   7. tagowanie nowego image
+
+   8. aktualizacja deploymentu zmianiąc tag obrazu w pliku "my-front ... deply", trzeba odświerzyć strone
+   kubectl set image deployment/my-frontend-depl my-frontend-container=6745345/my-react-image:release1
+
+zadanie 3
+   1. patrzenie historii
+    kubectl rollout history deploy my-frontend-depl
+   2. zmiana bezpośrednio na poprzednią wersje
+    kubectl rollout undo deployment/my-frontend-depl
+
+   bądź zmiana na dowolną wersje:
+   "3" bądź inna wsteczna wersja
+      kubectl rollout undo deploy my-frontend-depl --to-revision=3
+
+zadanie 4
+   1. tworznie backendu
+      1. tworznie image backendu
+         docker build -t backend-image .
+      2. tag image
+         docker tag backend-image 6745345/backend-image:release0
+
+      3. stawiania kubernetes
+         kubectl apply -f my-backend-depl.yaml
+      
+      4. test czy backend działą
+      działa
+
+   2. podmieniamy image na froncie taki co korzysta z backendu (curr release3)
+      i backend łączy się z frontem, działa.
+
+
+

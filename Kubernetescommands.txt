@@ -34,3 +34,13 @@ kubectl apply -f nazwa_poda
 
 # czyszczenie
    kubectl delete service my-frontend-nodeport
+
+# ClusterIP
+   robiony na ostatni wykladzie byl
+   łączenie backendu z frontendem wewnatrze kubernetesa
+
+
+# proces usuwania (service + depl)
+   1. kubectl delete service nazwa_service
+   2. kubectl delete deploy nazwa_deploy
+   3. werjsc do dockerDesktop -> kliknąć koszyk na pozostałość

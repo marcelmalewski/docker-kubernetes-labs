@@ -8,6 +8,8 @@ services:
       context: ./mynginx
     ports:
     - '3001:80'
+    depends_on:
+      - myfrontend
 
   myfrontend:
     build:
@@ -16,10 +18,13 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
     volumes:
-      # powiedzenie ze kontener ma miec swoj node_modules
-      - /app/node_modules
       # kontener ma miec/widziec katalogi z hosta
-      - C:\Users\mmale\Repozytoria\chmurowe\lab7\zadanie2\myfrontend:/app
+      - /app/node_modules
+       # powiedzenie ze kontener ma miec swoj node_modules
+      - ./myfrontend:/app
 
       # 
-      # ./myfrontend:/opt/app
+      # C:\Users\mmale\Repozytoria\chmurowe\lab7\zadanie2\myfrontend:/app
+
+      
+     

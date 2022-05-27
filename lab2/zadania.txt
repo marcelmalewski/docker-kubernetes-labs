@@ -1,8 +1,9 @@
 zadanie1
   1. docker pull busybox
-  # po tej komendzie wejdziemy do terminala i mozna uzyc "echo hello world"
+  # stworzenie z wejściem do terminala kontenera
   2. docker run -it busybox sh
     echo hello world
+    
   # albo ten sam wynik za pomocą jednej komendy
   docker run busybox echo hello world
   

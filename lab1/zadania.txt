@@ -3,7 +3,7 @@ zadanie1
 
 zadanie2
   docker pull hello-world
-  docker docker run hello-world
+  docker run hello-world
 
 zadanie3
   # tworzy nowy container na podstawie podanego image

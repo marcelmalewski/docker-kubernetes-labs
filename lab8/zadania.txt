@@ -21,7 +21,12 @@ zad3
   2. kubectl apply -f my-nginx-nodeport.yaml
   3. kubectl get service
 
-zad4
+  Pytania:
+  1. Czym się różni typ NodePort od ClusterIP ?
+    ClusterIP pozwala ,żeby pody się widziały
+    Nodeport pozwała na łączenie się z klastrem
+
+zad4 //sprobować zrobić bez deploya
   create .dockerignore
 
   1. jak nie działa dodać
