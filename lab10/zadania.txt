@@ -1,0 +1,24 @@
+zad 1, 2
+...
+
+zad 3
+
+zad 5
+   kubectl apply -f my-frontend-depl.yaml
+   kubectl apply -f my-backend-depl.yaml
+
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
+   kubectl get pods --namespace=ingress-nginx
+   
+
+   kubectl apply -f my-frontend-ingress.yaml
+
+   usuwanie:
+      kubectl delete ingress my-frontend-ingress
+      kubectl delete service my-frontend-service
+      kubectl delete deploy my-frontend-depl
+      kubectl delete namespace ingress-nginx
+
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.44.0/deploy/static/provider/cloud/deploy.yaml
+   

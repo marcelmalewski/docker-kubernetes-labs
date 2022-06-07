@@ -1,0 +1,1 @@
+zrobić coś na wzór notion, coś z notatkami

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-backend-depl
+  labels:
+    app: backendapp
+
+spec:
+  template:
+    metadata:
+      name: my-backend-pod
+      labels:
+        app: backendapp
+    spec:
+      containers:
+        - name: my-backend-container
+          image: 6745345/my-backend-image:release0
+
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backendapp
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-backend-service
+
+spec:
+  selector:
+    app: backendapp
+  ports:
+    - port: 4000
+      targetPort: 4000
+  type: ClusterIP

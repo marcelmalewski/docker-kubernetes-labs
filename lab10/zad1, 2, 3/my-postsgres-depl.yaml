@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: my-postgres-depl
+  labels:
+    app: postgresapp
+
+spec:
+  template:
+    metadata:
+      name: my-postgres-pod
+      labels:
+        app: postgresapp
+
+    spec: 
+      containers:
+        - name: my-postges-container
+          image: postgres:alpine
+          env:
+          - name: POSTGRES_DB
+            value: "mydb"
+          - name: POSTGRES_USER
+            value: "myuser"
+          -name: POSTGRES_PASSWORD
+            value: "mypassword"
+          volumeMounts:
+          - name: my-volume
+            mountPath: /var/lib/postgresql/data
+
+    volumes:
+      - name: my-volume
+        hostPath:
+          path: /postgres
+          type: Directory
+           
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgresapp

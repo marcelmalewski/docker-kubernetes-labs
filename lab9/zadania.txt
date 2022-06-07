@@ -39,9 +39,9 @@ zadanie 3
 zadanie 4
    1. tworznie backendu
       1. tworznie image backendu
-         docker build -t backend-image .
+         docker build -t my-backend-image .
       2. tag image
-         docker tag backend-image 6745345/backend-image:release0
+         docker tag my-backend-image 6745345/backend-image:release0
 
       3. stawiania kubernetes
          kubectl apply -f my-backend-depl.yaml

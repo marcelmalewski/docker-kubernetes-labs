@@ -36,7 +36,7 @@ zad4 //sprobować zrobić bez deploya
     docker build -t my-react-image .
 
   3. tag image
-    docker tag my-react-image 6745345/my-react-image:latest
+    docker tag my-react-image 6745345/my-react-image:release0
     docker tag {image_name} {username}/{image_name}:{image_version}
 
   4. jak bylo logout to trzeba
