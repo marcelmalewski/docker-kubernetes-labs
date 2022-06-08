@@ -2,6 +2,13 @@ const express = require('express');
 const router = express.Router();
 const Note = require('../models/Note');
 
+const redisClient = require('redis').createClient;
+const redis = redisClient(6379, 'localhost');
+
+redis.on("connect", () => {
+  console.log('connected to Redis');
+});
+
 router.get('/', async (req, res) => {
   const notes = await Note.find()
 

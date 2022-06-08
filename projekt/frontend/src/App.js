@@ -1,42 +1,20 @@
 import './App.css';
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Menu from './pages/Menu';
+import Notes from './pages/Notes';
+import ImportantNotes from './pages/ImportantNotes';
 
 function App() {
-  const [newNote, setNewNote] = useState('');
-  const [notes, setNotes] = useState([]);
-
-  const addNewNote = () => {
-    const data = {
-       newNote: newNote
-    }
-    
-    // axios.post('/api/notes', data)
-    // .then(() => {
-    //    alert("Success")
-    // })
- }
-
-
   return (
     <div className="App">
-      <h1>Your Notepad</h1>
-      <form onSubmit={addNewNote}>
-        <div>
-            <label htmlFor="newNote">new note: </label>
-            <input
-              id="newNote"
-              type="text"
-              value={newNote}
-              onChange={(e) => setNewNote(e.target.value)}
-            />
-        </div>
-        <button type="submit">add new note</button>
-      </form>
-
-      <br/>
-      <br/>
-      <div>Your Notes: </div>
-
+      <BrowserRouter>
+         <Routes>
+           <Route exact path="/" element={<Menu />} />
+           <Route exact path="/notes" element={<Notes />} />
+           <Route exact path="/important-notes" element={<ImportantNotes />} />
+         </Routes>
+       </BrowserRouter>
     </div>
   );
 }
