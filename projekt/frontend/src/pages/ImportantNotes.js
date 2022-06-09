@@ -1,26 +1,42 @@
 import React from 'react'
+import axios from 'axios';
 import { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 
 function ImportantNotes() {
-   const [newImportantNote, setNewImportantNote] = useState('');
+   const [newImportantNoteContent, setNewImportantNoteContent] = useState('');
    const navigate = useNavigate();
-   const [importantNotes, setImportantNotes] = useState([{id: 1, content: 'Note 1 content'}, {id: 2, content: 'Note 2 content'}, {id: 3, content: 'Note 3 content'}]);
+   const [importantNotes, setImportantNotes] = useState([]);
 
    const addNewImportantNote = () => {
-   const data = {
-      newImportantNote: newImportantNote
+      const newImportantNote = {
+         content: newImportantNoteContent
+      }
+      
+      axios.post('http://localhost:5000/important-notes', newImportantNote)
+      .then(() => {
+         alert("Success")
+      })
    }
-   
-   // axios.post('/api/notes', data)
-   // .then(() => {
-   //    alert("Success")
-   // })
+
+   const deleteImportantNote = (id) => {
+      axios.delete(`http://localhost:5000/important-notes/${id}`)
+      .then(() => {
+         alert("Success deleted")
+         setImportantNotes(importantNotes.filter(importantNote => importantNote._id !== id))
+      });
    }
 
    const goToMenu = () => {
       navigate("/");
    }
+
+   useEffect(() => {
+      axios.get('http://localhost:5000/important-notes')
+      .then((response) => {
+         setImportantNotes(response.data.importantNotes)
+      })
+    }, [navigate])
 
    return (
       <div>
@@ -32,7 +48,12 @@ function ImportantNotes() {
 
          <div>
             {importantNotes.map(importantNote =>
-               <div key={importantNote.id}>{importantNote.content}</div>
+               <div
+                  key={importantNote._id}>{importantNote.content}
+                  <button onClick={() => deleteImportantNote(importantNote._id)}>Delete</button>
+                  <br/>
+                  <br/>
+               </div>
             )}
          </div>
          <br/>
@@ -43,8 +64,8 @@ function ImportantNotes() {
                <input
                id="newImportantNote"
                type="text"
-               value={newImportantNote}
-               onChange={(e) => setNewImportantNote(e.target.value)}
+               value={newImportantNoteContent}
+               onChange={(e) => setNewImportantNoteContent(e.target.value)}
                />
          </div>
          <button type="submit">add new important note</button>
