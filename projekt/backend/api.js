@@ -18,14 +18,9 @@ app.use('/notes', notes);
 app.use('/important-notes', importantNotes);
 
 require('dotenv').config();
-const mongoConnData = {
-   host: process.env.MONGO_HOST,
-   port: process.env.MONGO_PORT,
-   database: process.env.MONGO_DATABASE
-};
 
 mongoose
-  .connect(`mongodb://${mongoConnData.host}:${mongoConnData.port}/${mongoConnData.database}`, {
+  .connect(`mongodb://${process.env.MONGO_USER_NAME}:${process.env.MONGO_USER_PASSWORD}@${process.env.MONGO_URL}`, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
@@ -33,7 +28,7 @@ mongoose
     const port = process.env.PORT;
 
     app.listen(port, () => {
-      console.log(`API server listening at http://localhost:${port}`);
+      console.log(`API server listening`);
     });
   })
   .catch(error => console.error('Error connecting to MongoDB', error));

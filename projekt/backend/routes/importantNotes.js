@@ -6,8 +6,8 @@ const ImportantNote = require('../models/ImportantNote');
 const Redis = require("ioredis");
 
 const dbConnData = {
-  port: process.env.REDIS_PORT || 6379,
-  host: process.env.REDIS_HOST || 'localhost', // 127.0.0.1
+  port: process.env.REDIS_PORT,
+  host: process.env.REDIS_HOST
 };
 
 const rdClient = new Redis(dbConnData);
