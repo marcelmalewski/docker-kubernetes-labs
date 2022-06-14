@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: production
+  creationTimestamp: null
   name: mongo-deployment
   labels:
     app: mongo
@@ -9,16 +11,41 @@ spec:
   selector:
     matchLabels:
       app: mongo
+  strategy: {}
   template:
     metadata:
+      creationTimestamp: null
       labels:
         app: mongo
     spec:
       containers:
       - name: mongo-container
-        image: mongo:5.0
-        ports:
-        - containerPort: 27017
+        image: mongo
+        args: ["--dbpath","/data/db"]
+        livenessProbe:
+          exec:
+            command:
+              - mongo
+              - --disableImplicitSessions
+              - --eval
+              - "db.adminCommand('ping')"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
+        readinessProbe:
+          exec:
+            command:
+              - mongo
+              - --disableImplicitSessions
+              - --eval
+              - "db.adminCommand('ping')"
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
@@ -30,10 +57,18 @@ spec:
             secretKeyRef:
               name: mongo-secret
               key: mongo-password
+        volumeMounts:
+        - name: "mongo-data-dir"
+          mountPath: "/data/db"
+      volumes:
+      - name: "mongo-data-dir"
+        hostPath:
+          path: "/data"
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: production
   name: mongo-service
 spec:
   type: ClusterIP

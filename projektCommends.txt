@@ -13,25 +13,57 @@ tworzenie image do backendu:
    2. docker tag backend-image 6745345/backend-image:Prod-1.0
    3. docker push 6745345/backend-image:Prod-1.0
 
+tworzenie image do frontendu:
+   1. docker build -t frontend-image .
+   2. docker tag frontend-image 6745345/frontend-image:Prod-1.0
+   3. docker push 6745345/frontend-image:Prod-1.0
+
 tworzenie:
+   kubectl create -f namespace-prod.json
+   mongo
    1. kubectl apply -f mongo-config.yaml
    2. kubectl apply -f mongo-secret.yaml
    3. kubectl apply -f mongo.yaml
+   backend
    4. kubectl apply -f backend.yaml
-   5. kubectl get all
+   5. kubectl apply -f backend-config.yaml
+
+   frontend
+   6. kubectl apply -f frontend.yaml
+   7. kubectl apply -f frontend-ingress.yaml
+
+   8. kubectl get all --namespace=production
+
+ingress:
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
+   kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:3000
+   kubectl get pods --namespace=ingress-nginx
 
 tworzenie redis:
    kubectl apply -f redis-conf.yaml
    kubectl apply -f redis.yaml
 
 usuwanie:
+   wystarczy usunąć namespace
+      kubectl delete namespace production
+
    kubectl delete service backend-service
    kubectl delete deploy backend-deployment
+   kubectl delete service mongo-service
+   kubectl delete deploy mongo-deployment
+   kubectl delete secret mongo-secret
+   kubectl delete configmap mongo-config
+   kubectl delete deploy frontend-deployment --namespace=production
+   kubectl delete service frontend-service
+   
+   kubectl delete ingress frontend-ingress
 
 tworzenie namespace:
   kubectl create -f namespace-prod.json
   kubectl get namespaces --show-labels
 
+test:
+   kasujemy mongo i tworzymy na nowo
 
 MONGO_HOST="127.0.0.1"
 MONGO_PORT="27017"
@@ -48,3 +80,11 @@ włączone rzeczy:
    1. mongo i mongo service +
    2. mongo config +
    3. mongo secret +
+
+
+        env:
+          - name: BACKEND_URL
+            valueFrom:
+              configMapKeyRef:
+                name: backend-config
+                key: backend-url

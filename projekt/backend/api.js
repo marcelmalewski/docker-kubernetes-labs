@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require("cors");
 
 const notes = require('./routes/notes');
-const importantNotes = require('./routes/importantNotes');
+// const importantNotes = require('./routes/importantNotes');
 
 const app = express();
 
@@ -15,7 +15,7 @@ app.use(
 
 app.use(express.json());
 app.use('/notes', notes);
-app.use('/important-notes', importantNotes);
+// app.use('/important-notes', importantNotes);
 
 require('dotenv').config();
 
