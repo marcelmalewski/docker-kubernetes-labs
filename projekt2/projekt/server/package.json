@@ -1,0 +1,18 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "ioredis": "^5.0.6",
+    "mongoose": "^6.3.8",
+    "nodemon": "^2.0.16",
+    "server": "^1.0.37"
+  }
+}

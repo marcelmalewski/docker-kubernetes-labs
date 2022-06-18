@@ -43,10 +43,11 @@ metadata:
   namespace: production
   name: backend-service
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: backend
   ports:
     - protocol: TCP
       port:  5000
       targetPort: 5000
+      nodePort: 30001

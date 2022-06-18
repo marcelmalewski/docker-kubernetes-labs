@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: production
   name: frontend-deployment
   labels:
     app: frontend
@@ -21,6 +22,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: production
   name: frontend-service
 spec:
   type: ClusterIP
@@ -29,4 +31,4 @@ spec:
   ports:
     - protocol: TCP
       port:  80
-      targetPort: 3000
+      targetPort: 80

@@ -4,6 +4,7 @@ COPY ./package.json ./
 COPY ./package-lock.json ./
 RUN npm install
 COPY ./ ./
+ENV REACT_APP_BACKEND_URL="http://localhost:80/api"
 RUN npm run build
 
 FROM nginx

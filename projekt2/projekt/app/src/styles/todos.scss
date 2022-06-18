@@ -1,0 +1,36 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
+.container {
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+
+	.list-group-item {
+		padding: 20px;
+
+		.add {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+
+		.form {
+			display:flex;
+			flex-direction: column;
+			gap:10px;
+		}
+		}
+
+		.list-group {
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+
+			li {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+		}
+	}
+}

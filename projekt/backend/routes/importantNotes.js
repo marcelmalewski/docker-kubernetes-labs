@@ -4,13 +4,15 @@
 
 // //REDIS-----------------------------------------------------------------------------
 // const Redis = require("ioredis");
+// const redis = require("redis");
 
-// const dbConnData = {
-//   port: process.env.REDIS_PORT,
-//   host: process.env.REDIS_HOST
-// };
+// // port: process.env.REDIS_PORT,
+// // host: process.env.REDIS_HOST
 
-// const rdClient = new Redis(dbConnData);
+// // const rdClient = new Redis(dbConnData);
+// const rdClient = redis.createClient({
+//    url: "redis://localhost:6379"
+// });
 
 // rdClient.on('connect', function() {
 //   console.log('Redis connected');

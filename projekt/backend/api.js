@@ -28,7 +28,7 @@ mongoose
     const port = process.env.PORT;
 
     app.listen(port, () => {
-      console.log(`API server listening`);
+      console.log(`API server listening ${port}`);
     });
   })
   .catch(error => console.error('Error connecting to MongoDB', error));

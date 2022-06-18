@@ -10,17 +10,23 @@ mongo, replicaset: 1 -> bo zeby baz było wiele to trzeba by było użyć statef
 
 tworzenie image do backendu:
    1. docker build -t backend-image .
-   2. docker tag backend-image 6745345/backend-image:Prod-1.0
-   3. docker push 6745345/backend-image:Prod-1.0
+   2. docker tag backend-image 6745345/backend-image:Prod-2.0
+   3. docker push 6745345/backend-image:Prod-2.0
+
+   1. docker build -t todo-app-client .
+   2. docker tag backend-image todo-app-client:latest
+   3. docker push todo-app-client:latest
+   todo-app-client:latest
 
 tworzenie image do frontendu:
    1. docker build -t frontend-image .
-   2. docker tag frontend-image 6745345/frontend-image:Prod-1.0
-   3. docker push 6745345/frontend-image:Prod-1.0
+   2. docker tag frontend-image 6745345/frontend-image:Prod-2.0
+   3. docker push 6745345/frontend-image:Prod-2.0
 
 tworzenie:
    kubectl create -f namespace-prod.json
    mongo
+   kubectl apply -f mongo-volume.yaml
    1. kubectl apply -f mongo-config.yaml
    2. kubectl apply -f mongo-secret.yaml
    3. kubectl apply -f mongo.yaml
@@ -32,6 +38,10 @@ tworzenie:
    6. kubectl apply -f frontend.yaml
    7. kubectl apply -f frontend-ingress.yaml
 
+   redis
+   8. kubectl apply -f redis-config.yaml
+   9. kubectl apply -f redis.yaml
+
    8. kubectl get all --namespace=production
 
 ingress:
@@ -39,23 +49,25 @@ ingress:
    kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:3000
    kubectl get pods --namespace=ingress-nginx
 
-tworzenie redis:
-   kubectl apply -f redis-conf.yaml
-   kubectl apply -f redis.yaml
-
 usuwanie:
    wystarczy usunąć namespace
       kubectl delete namespace production
 
-   kubectl delete service backend-service
-   kubectl delete deploy backend-deployment
-   kubectl delete service mongo-service
-   kubectl delete deploy mongo-deployment
-   kubectl delete secret mongo-secret
-   kubectl delete configmap mongo-config
+   kubectl delete service backend-service --namespace=production
+   kubectl delete deploy backend-deployment --namespace=production
+
+   kubectl delete service mongo-service --namespace=production
+   kubectl delete deploy mongo-deployment --namespace=production
+   kubectl delete secret mongo-secret --namespace=production
+   kubectl delete configmap mongo-config --namespace=production
+
    kubectl delete deploy frontend-deployment --namespace=production
    kubectl delete service frontend-service
-   
+
+   kubectl delete service redis-service --namespace=production
+   kubectl delete pod redis --namespace=production
+   kubectl delete configmap redis-config --namespace=production
+
    kubectl delete ingress frontend-ingress
 
 tworzenie namespace:
@@ -88,3 +100,25 @@ włączone rzeczy:
               configMapKeyRef:
                 name: backend-config
                 key: backend-url
+
+   - name: data
+      emptyDir: {}
+    - name: config
+      configMap:
+        name: redis-config
+        items:
+        - key: redis-config
+          path: redis.conf
+
+
+FROM node:alpine
+
+WORKDIR /opt/app
+
+COPY ./package.json ./
+
+RUN yarn install
+
+COPY . .
+
+CMD ["yarn", "start"]

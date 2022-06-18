@@ -3,8 +3,8 @@ const router = express.Router();
 const Note = require('../models/Note');
 
 router.get('/', async (req, res) => {
-  const notes = await Note.find()
-
+  const notes = await Note.find();
+  
   return res.send({
       notes: notes
     });

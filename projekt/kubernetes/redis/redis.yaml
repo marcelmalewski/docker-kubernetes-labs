@@ -1,40 +1,43 @@
 apiVersion: v1
 kind: Pod
 metadata:
+  namespace: production
   name: redis
-  spec:
-    containers:
-    - name: redis
-      image: redis:5.0.4
-      command:
-        - redis-server
-        - "/redis-master/redis.conf"
-      env:
-      - name: MASTER
-        value: "yes"
-      ports:
-      - containerPort: 6379
-      resources:
-        limits:
-          cpu: "0.1"
-      volumeMounts:
-      - mountPath: /redis-master-data
-        name: data
-      - mountPath: /redis-master
-        name: config
-    volumes:
+spec:
+  containers:
+  - name: redis
+    image: redis
+    command:
+      - redis-server
+      - "/redis-master/redis.conf"
+    env:
+    - name: MASTER
+      value: "true"
+    ports:
+    - containerPort: 6379
+    resources:
+      limits:
+        cpu: "0.1"
+    volumeMounts:
     - name: data
-      emptyDir: {}
+      mountPath: /redis-master-data
     - name: config
-      configMap:
-        name: redis-config
-        items:
-        - key: redis-config
-          path: redis.conf
+      mountPath: /redis-master
+  volumes:
+  - name: data
+    hostPath:
+      path: "/redis-master-data"
+  - name: config
+    configMap:
+      name: redis-config
+      items:
+      - key: redis-config
+        path: redis.conf
 ---
 apiVersion: v1
 kind: Service
 metadata:
+  namespace: production
   name: redis-service
 spec:
   type: ClusterIP
