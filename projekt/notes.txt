@@ -1,0 +1,24 @@
+tworzenie:
+   kubectl create -f namespace-prod.json
+
+   kubectl apply -f mongo-volume.yaml
+
+   1. kubectl apply -f mongo-config.yaml
+   2. kubectl apply -f mongo-secret.yaml
+   3. kubectl apply -f mongo.yaml
+   backend
+   4. kubectl apply -f api.yaml
+
+   frontend
+   6. kubectl apply -f front.yaml
+   7. kubectl apply -f front-ingress.yaml
+
+   redis
+   8. kubectl apply -f redis-config.yaml
+   9. kubectl apply -f redis.yaml
+
+   8. kubectl get all --namespace=production
+
+   ----------
+   docker tag todo-app-server 6745345/todo-app-server:latest
+   docker push 6745345/todo-app-server:latest

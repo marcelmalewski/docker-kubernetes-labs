@@ -1,0 +1,119 @@
+docker run -d -p 27017:27017 --name test-mongo mongo:latest
+docker run --name some-redis -d -p 6379:6379 redis
+
+kubectl status
+
+mongo-user: mongouser
+mongo-password: mongopassword
+
+mongo, replicaset: 1 -> bo zeby baz było wiele to trzeba by było użyć statefulset
+
+tworzenie image do backendu:
+   1. docker build -t api-image .
+   2. docker tag api-image 6745345/api-image:Prod1.0
+   3. docker push 6745345/api-image:Prod1.0
+
+tworzenie image do frontendu:
+   1. docker build -t front-image .
+   2. docker tag front-image 6745345/front-image:Dev1.0
+   3. docker push 6745345/front-image:Dev1.0
+
+tworzenie:
+   kubectl create -f namespace-prod.json
+   mongo
+   kubectl apply -f mongo-volume.yaml
+   1. kubectl apply -f mongo-config.yaml
+   2. kubectl apply -f mongo-secret.yaml
+   3. kubectl apply -f mongo.yaml
+   backend
+   4. kubectl apply -f api.yaml
+
+   frontend
+   6. kubectl apply -f front.yaml
+   7. kubectl apply -f front-ingress.yaml
+
+   redis
+   kubectl apply -f redis-volume.yaml
+   8. kubectl apply -f redis-config.yaml
+   9. kubectl apply -f redis.yaml
+
+   8. kubectl get all --namespace=production
+
+ingress:
+   kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.0/deploy/static/provider/cloud/deploy.yaml
+   kubectl port-forward --namespace=ingress-nginx service/ingress-nginx-controller 8080:3000
+   kubectl get pods --namespace=ingress-nginx
+
+usuwanie:
+   wystarczy usunąć namespace
+      kubectl delete namespace production
+
+   kubectl delete service api-service --namespace=production
+   kubectl delete deploy api-deployment --namespace=production
+
+   kubectl delete service mongo-service --namespace=production
+   kubectl delete deploy mongo-deployment --namespace=production
+   kubectl delete secret mongo-secret --namespace=production
+   kubectl delete configmap mongo-config --namespace=production
+
+   kubectl delete deploy front-deployment --namespace=production
+   kubectl delete service front-service --namespace=production
+
+   kubectl delete service redis-service --namespace=production
+   kubectl delete pod redis --namespace=production
+   kubectl delete configmap redis-config --namespace=production
+
+   kubectl delete ingress front-ingress
+
+tworzenie namespace:
+  kubectl create -f namespace-prod.json
+  kubectl get namespaces --show-labels
+
+test:
+   kasujemy mongo i tworzymy na nowo
+
+MONGO_HOST="127.0.0.1"
+MONGO_PORT="27017"
+MONGO_DATABASE="local"
+PORT="5000"
+REDIS_HOST="localhost"
+REDIS_PORT="6379"
+
+allkeys-lru -> The maxmemory-policy directive defines the procedure to be applied when the memory limit is reached. 
+               allkeys-lru first removes the less recently used (LRU) keys.
+
+
+włączone rzeczy:
+   1. mongo i mongo service +
+   2. mongo config +
+   3. mongo secret +
+
+
+        env:
+          - name: BACKEND_URL
+            valueFrom:
+              configMapKeyRef:
+                name: backend-config
+                key: backend-url
+
+   - name: data
+      emptyDir: {}
+    - name: config
+      configMap:
+        name: redis-config
+        items:
+        - key: redis-config
+          path: redis.conf
+
+
+FROM node:alpine
+
+WORKDIR /opt/app
+
+COPY ./package.json ./
+
+RUN yarn install
+
+COPY . .
+
+CMD ["yarn", "start"]

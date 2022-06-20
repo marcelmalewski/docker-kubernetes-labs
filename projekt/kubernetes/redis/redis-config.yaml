@@ -4,7 +4,8 @@ metadata:
   namespace: production
   name: redis-config
 data:
-  redis-config: |
+  redis-config: 
     maxmemory 2mb
     maxmemory-policy allkeys-lru
-  redis-url: redis-service
+  redis-url:
+    redis-service
