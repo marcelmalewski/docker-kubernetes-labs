@@ -1,1 +1,1 @@
-# Technologie-chmurowe
+# School labs with docker and kubernetes
